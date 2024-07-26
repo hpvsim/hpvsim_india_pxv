@@ -12,9 +12,10 @@ import numpy as np
 
 def plot_single(ax, mres, to_plot, si, ei, color, label=None, smooth=True):
     years = mres.year[si:ei]
-    best = mres[to_plot][si:ei]
-    low = mres[to_plot].low[si:ei]
-    high = mres[to_plot].high[si:ei]
+    ts = 0.5  # detection rate / sensitivity
+    best = mres[to_plot][si:ei] / mres.n_alive_by_sex[0, si:ei] * ts
+    low = mres[to_plot].low[si:ei] / mres.n_alive_by_sex[0, si:ei] * ts
+    high = mres[to_plot].high[si:ei] / mres.n_alive_by_sex[0, si:ei] * ts
     if smooth:
         best = np.convolve(list(best), np.ones(5), "valid")/5
         low = np.convolve(list(low), np.ones(5), "valid")/5
@@ -89,7 +90,7 @@ def plot_fig3(msim_dict):
     # What to plot
     start_year = 2016
     end_year = 2060
-    to_plot = 'asr_cancer_incidence'
+    to_plot = 'n_precin'  #'asr_cancer_incidence'
     mbase = msim_dict['Baseline']
     si = sc.findinds(mbase.year, start_year)[0]
     ei = sc.findinds(mbase.year, end_year)[0]
@@ -109,7 +110,7 @@ def plot_fig3(msim_dict):
         mres = msim_dict[adolescent_label]
         ax = plot_single(ax, mres, to_plot, si, ei, covcolors[cn], label=f'Adolescents, {int(np.ceil(cov_val*100))}% coverage')
 
-    ax.set_ylim(bottom=0, top=23)
+    ax.set_ylim(bottom=0)  #, top=23)
     ax.set_ylabel('ASR cancer incidence')
     ax.set_title('Adolescent vaccination scenarios')
     ax.axhline(y=4, color='k', ls='--')
@@ -129,7 +130,7 @@ def plot_fig3(msim_dict):
         mres = msim_dict[infant_label]
         ax = plot_single(ax, mres, to_plot, si, ei, colors[ie], label=f'Infants, {int(np.ceil(eff_val*100))}% efficacy')
 
-    ax.set_ylim(bottom=0, top=23)
+    ax.set_ylim(bottom=0)  #, top=23)
     ax.set_ylabel('ASR cancer incidence')
     ax.set_title('Infant vaccination scenarios')
     ax.axhline(y=4, color='k', ls='--')

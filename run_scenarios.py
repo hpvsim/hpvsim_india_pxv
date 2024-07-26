@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
         if do_process:
 
-            metrics = ['year', 'asr_cancer_incidence', 'n_precin', 'n_alive_by_sex', 'cancers', 'cancer_deaths']
+            metrics = ['year', 'asr_cancer_incidence', 'n_precin_by_age', 'n_females_alive_by_age', 'cancers', 'cancer_deaths']
 
             # Process results
             vx_scenarios = make_vx_scenarios(coverage_arr, efficacy_arr)
