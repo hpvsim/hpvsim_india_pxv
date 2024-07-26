@@ -87,6 +87,7 @@ def plot_fig3(msim_dict):
         ax = plot_single(ax, mres, to_plot, si, ei, 'k', label='Baseline')
 
         for ie, eff_val in enumerate(efficacy_arr):
+            cov_val = eff_val*0.9/0.95
             infant_label = f'Adolescents: {cov_val} coverage, Infants: {eff_val} efficacy'
             mres = msim_dict[infant_label]
             ax = plot_single(ax, mres, to_plot, si, ei, colors[ie], label=f'Infants, {int(np.ceil(eff_val*100))}% efficacy')

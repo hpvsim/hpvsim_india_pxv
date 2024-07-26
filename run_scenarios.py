@@ -135,8 +135,8 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
     # Construct the infant scenarios
     for eff_val in efficacy_arr:
 
-        label = f'Adolescents: {cov_val} coverage, Infants: {eff_val} efficacy'
         cov_val = eff_val*0.9/0.95
+        label = f'Adolescents: {cov_val} coverage, Infants: {eff_val} efficacy'
 
         routine_vx = hpv.routine_vx(
             prob=cov_val,
