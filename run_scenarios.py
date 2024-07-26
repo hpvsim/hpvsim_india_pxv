@@ -163,6 +163,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
                 start_year=start_year-9,
                 product=infant_prod,
                 age_range=(0, 1),
+                eligibility=eligibility,
                 label='Infant vx'
             )
 
