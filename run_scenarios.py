@@ -167,7 +167,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
                 label='Infant vx'
             )
 
-            these_intvs = [infant_vx]  #[routine_vx, catchup_vx, infant_vx]
+            these_intvs = [infant_vx, catchup_vx]  #[routine_vx, catchup_vx, infant_vx]
             vx_scenarios[label] = these_intvs
 
     return vx_scenarios
