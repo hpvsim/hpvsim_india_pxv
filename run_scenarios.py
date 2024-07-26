@@ -146,20 +146,20 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
             #     label='Routine vx'
             # )
             #
-            # catchup_vx = hpv.campaign_vx(
-            #     prob=cov_val,  #[0.9, 0.7],
-            #     years=start_year,  #[2025, 2030],
-            #     product=prod,
-            #     age_range=catchup_age,
-            #     eligibility=eligibility,
-            #     label='Catchup vx'
-            # )
+            catchup_vx = hpv.campaign_vx(
+                prob=cov_val,  #[0.9, 0.7],
+                years=start_year,  #[2025, 2030],
+                product=prod,
+                age_range=catchup_age,
+                eligibility=eligibility,
+                label='Catchup vx'
+            )
 
             infant_prod = hpv.default_vx(prod_name=product)
             infant_prod.imm_init = dict(dist='beta_mean', par1=eff_val, par2=0.025)
             infant_vx = hpv.routine_vx(
                 prob=0.9,
-                start_year=start_year,
+                start_year=start_year-9,
                 product=infant_prod,
                 age_range=(0, 1),
                 label='Infant vx'
