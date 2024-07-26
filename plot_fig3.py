@@ -56,7 +56,7 @@ def plot_fig3(msim_dict):
         if pn == 0: ax.legend()
 
     fig.tight_layout()
-    fig_name = 'figures/vx_scens.png'
+    fig_name = 'figures/fig3_vx_scens.png'
     sc.savefig(fig_name, dpi=100)
 
     return
