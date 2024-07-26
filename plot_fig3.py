@@ -38,7 +38,7 @@ def plot_fig3(msim_dict):
 
     ut.set_font(16)
     colors = sc.vectocolor(len(efficacy_arr), reverse=True)
-    plot_coverage_arr = coverage_arr[[0,4,8]]  # which ones to plot
+    plot_coverage_arr = coverage_arr  #[[0,4,8]]  # which ones to plot
     covcolors = sc.vectocolor(len(plot_coverage_arr), reverse=True)
     plot_dict = sc.objdict(
         precin_incidence='Detectable HPV prevalence, females 15-49',

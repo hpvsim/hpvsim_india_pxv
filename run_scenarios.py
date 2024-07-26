@@ -147,8 +147,8 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
             )
 
             catchup_vx = hpv.campaign_vx(
-                prob=[0.9, 0.7],
-                years=[2025, 2030],
+                prob=cov_val,  #[0.9, 0.7],
+                years=start_year,  #[2025, 2030],
                 product=prod,
                 age_range=catchup_age,
                 eligibility=eligibility,
