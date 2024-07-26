@@ -26,7 +26,7 @@ import run_sim as rs
 
 # Settings - used here and imported elsewhere
 debug = 0
-n_seeds = [10, 1][debug]  # How many seeds to run per cluster
+n_seeds = [5, 1][debug]  # How many seeds to run per cluster
 coverage_arr = np.arange(.1, 1, .1)
 efficacy_arr = np.arange(.5, 1, .1)
 
@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
         if do_process:
 
-            metrics = ['year', 'asr_cancer_incidence', 'cancers', 'cancer_deaths']
+            metrics = ['year', 'asr_cancer_incidence', 'n_precin', 'n_alive_by_sex', 'cancers', 'cancer_deaths']
 
             # Process results
             vx_scenarios = make_vx_scenarios(coverage_arr, efficacy_arr)

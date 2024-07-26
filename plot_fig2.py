@@ -76,9 +76,10 @@ def plot_fig2(df):
     g.set_titles("{row_name} averted")
 
     for ax in g.axes.flat:
-        ax.yaxis.set_major_formatter(tkr.FuncFormatter(lambda y, p: format(int(y), ',')))
+        sc.SIticks(ax)  #ax.yaxis.set_major_formatter(tkr.FuncFormatter(lambda y, p: format(int(y), ',')))
     g.legend.set_title("Adolescent\ncoverage")
 
+    # fig.tight_layout()
     fig_name = 'figures/fig2_vx_impact.png'
     sc.savefig(fig_name, dpi=100)
     return
