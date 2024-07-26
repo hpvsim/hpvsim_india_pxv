@@ -31,17 +31,22 @@ def plot_fig3(msim_dict):
     if n_plots > 1: axes = axes.flatten()
 
     # What to plot
-    start_year = 2020
+    start_year = 1990
     to_plot = 'asr_cancer_incidence'
 
     for pn, cov_val in enumerate(plot_coverage_arr):
 
         ax = axes[pn] if n_plots > 1 else axes
 
+        # Plot baseline
+        baseline_label = 'Baseline'
+        mres = msim_dict[baseline_label]
+        si = sc.findinds(mres.year, start_year)[0]
+        ax = plot_single(ax, mres, to_plot, si, 'r', label='Baseline')
+
         # Plot adolescents
         adolescent_label = f'Adolescent: {cov_val} coverage'
         mres = msim_dict[adolescent_label]
-        si = sc.findinds(mres.year, start_year)[0]
         ax = plot_single(ax, mres, to_plot, si, 'k', label='Adolescents only')
 
         for ie, eff_val in enumerate(efficacy_arr):

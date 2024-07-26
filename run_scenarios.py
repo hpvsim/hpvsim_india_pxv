@@ -174,7 +174,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
 def make_sims(calib_pars=None, vx_scenarios=None):
     """ Set up scenarios """
 
-    st_intv = make_st()
+    st_intv = []  # make_st()
 
     all_msims = sc.autolist()
     for name, vx_intv in vx_scenarios.items():
@@ -203,7 +203,7 @@ if __name__ == '__main__':
 
     T = sc.timer()
     do_run = True
-    do_save = True
+    do_save = False
     do_process = True
 
     # Run scenarios (usually on VMs, runs n_seeds in parallel over M scenarios)
