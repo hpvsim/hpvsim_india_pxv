@@ -28,8 +28,8 @@ import run_sim as rs
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
 coverage_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.1, 1, .1)
-efficacy_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.5, 1, .1)
-
+# efficacy_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.5, 1, .1)
+efficacy_arr = 0.95*np.array([0.1,0.5,0.9])/.9
 
 # %% Create interventions
 
@@ -101,6 +101,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
     catchup_age = (age_range[0]+1, age_range[1])
     routine_age = (age_range[0], age_range[0]+1)
     prod = hpv.default_vx(prod_name=product)
+    prod.imm_init = dict(dist='beta_mean', par1=0.95, par2=0.025)
     eligibility = lambda sim: (sim.people.doses == 0)
 
     vx_scenarios = dict()
