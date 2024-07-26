@@ -26,9 +26,9 @@ import run_sim as rs
 
 # Settings - used here and imported elsewhere
 debug = 0
-n_seeds = [5, 1][debug]  # How many seeds to run per cluster
-coverage_arr = np.arange(.1, 1, .1)
-efficacy_arr = np.arange(.5, 1, .1)
+n_seeds = [20, 1][debug]  # How many seeds to run per cluster
+coverage_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.1, 1, .1)
+efficacy_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.5, 1, .1)
 
 
 # %% Create interventions
