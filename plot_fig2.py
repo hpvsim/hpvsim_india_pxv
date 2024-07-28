@@ -30,27 +30,27 @@ def preprocess_data(msim_dict, cost_dict=None):
         dalys_averted = sum(base_dalys - scen_dalys)
         records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric':'DALYs', 'val': dalys_averted}
 
-            for pn, metric in enumerate(metrics):
-                base_vals = msim_dict[base_label][metric].values[si:]
-                scen_vals = msim_dict[scen_label][metric].values[si:]
-                n_averted = sum(base_vals - scen_vals)
-                records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
+        for pn, metric in enumerate(metrics):
+            base_vals = msim_dict[base_label][metric].values[si:]
+            scen_vals = msim_dict[scen_label][metric].values[si:]
+            n_averted = sum(base_vals - scen_vals)
+            records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
 
-            # Costs
-            if cost_dict is not None:
-                scen_costs = 0
-                base_costs = 0
-                for cname, cost in cost_dict.items():
-                    if msim_dict[scen_label].get(cname):
-                        scen_costs += msim_dict[scen_label][cname].values * cost
-                    if msim_dict[base_label].get(cname):
-                        base_costs += msim_dict[scen_label][cname].values * cost
+        # Costs
+        if cost_dict is not None:
+            scen_costs = 0
+            base_costs = 0
+            for cname, cost in cost_dict.items():
+                if msim_dict[scen_label].get(cname):
+                    scen_costs += msim_dict[scen_label][cname].values * cost
+                if msim_dict[base_label].get(cname):
+                    base_costs += msim_dict[scen_label][cname].values * cost
 
-                total_scen_cost = sum([i / 1.03 ** t for t, i in enumerate(scen_costs)])
-                total_base_cost = sum([i / 1.03 ** t for t, i in enumerate(base_costs)])
-                additional_costs = total_scen_cost - total_base_cost
+            total_scen_cost = sum([i / 1.03 ** t for t, i in enumerate(scen_costs)])
+            total_base_cost = sum([i / 1.03 ** t for t, i in enumerate(base_costs)])
+            additional_costs = total_scen_cost - total_base_cost
 
-                records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric': 'cost', 'val': additional_costs}
+            records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric': 'cost', 'val': additional_costs}
 
     df = pd.DataFrame.from_dict(records)
 
@@ -89,7 +89,7 @@ def plot_fig2(df):
 if __name__ == '__main__':
 
     # Load scenarios and construct figure
-    msim_dict = sc.loadobj('results/vx_scens_all.obj')
+    msim_dict = sc.loadobj('results/vx_scens.obj')
     df = preprocess_data(msim_dict)
 
     plot_fig2(df)

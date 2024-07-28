@@ -111,7 +111,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
 
     # Construct the adolescent only scenarios
     for cov_val in coverage_arr:
-        label = f'Adolescent: {cov_val} coverage'
+        label = f'Adolescent: {np.round(cov_val, decimals=2)} coverage'
         routine_vx = hpv.routine_vx(
             prob=cov_val,
             start_year=start_year,
@@ -136,7 +136,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
     for eff_val in efficacy_arr:
 
         cov_val = eff_val*0.9/0.95
-        label = f'Infants: {eff_val} efficacy'
+        label = f'Infants: {np.round(eff_val, decimals=3)} efficacy'
 
         routine_vx = hpv.routine_vx(
             prob=cov_val,
