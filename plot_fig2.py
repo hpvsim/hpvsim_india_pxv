@@ -7,8 +7,6 @@ import sciris as sc
 from run_scenarios import coverage_arr, efficacy_arr
 import utils as ut
 import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib.ticker as tkr
 
 
 def preprocess_data(msim_dict, cost_dict=None):
@@ -24,11 +22,13 @@ def preprocess_data(msim_dict, cost_dict=None):
         di = sc.findinds(msim_dict[base_label].daly_years, start_year)[0]
         base_dalys = msim_dict[base_label].dalys[di:]
 
-        for en, eff_val in enumerate(efficacy_arr):
-            scen_label = f'Adolescents: {cov_val} coverage, Infants: {eff_val} efficacy'
-            scen_dalys = msim_dict[scen_label].dalys[di:]
-            dalys_averted = sum(base_dalys - scen_dalys)
-            records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric':'DALYs', 'val': dalys_averted}
+    for en, eff_val in enumerate(efficacy_arr):
+        cov_val = eff_val*0.9/0.95
+        base_label = f'Adolescent: {cov_val} coverage'
+        scen_label = f'Infants: {eff_val} efficacy'
+        scen_dalys = msim_dict[scen_label].dalys[di:]
+        dalys_averted = sum(base_dalys - scen_dalys)
+        records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric':'DALYs', 'val': dalys_averted}
 
             for pn, metric in enumerate(metrics):
                 base_vals = msim_dict[base_label][metric].values[si:]
@@ -76,7 +76,7 @@ def plot_fig2(df):
     g.set_titles("{row_name} averted")
 
     for ax in g.axes.flat:
-        sc.SIticks(ax)  #ax.yaxis.set_major_formatter(tkr.FuncFormatter(lambda y, p: format(int(y), ',')))
+        sc.SIticks(ax)
     g.legend.set_title("Adolescent\ncoverage")
 
     # fig.tight_layout()
@@ -89,7 +89,7 @@ def plot_fig2(df):
 if __name__ == '__main__':
 
     # Load scenarios and construct figure
-    msim_dict = sc.loadobj('results/vx_scens.obj')
+    msim_dict = sc.loadobj('results/vx_scens_all.obj')
     df = preprocess_data(msim_dict)
 
     plot_fig2(df)

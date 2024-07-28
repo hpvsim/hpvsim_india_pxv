@@ -28,8 +28,8 @@ import run_sim as rs
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
 coverage_arr = np.arange(.1, 1, .1)  # np.array([0.1, 0.5, 0.9])
-efficacy_arr = np.array([0.1, 0.5, 0.9])  #np.arange(.5, 1, .1)
-# efficacy_arr = 0.95*coverage_arr/.9
+# efficacy_arr = np.arange(.5, 1, .1)
+efficacy_arr = 0.95*coverage_arr/.9
 
 # %% Create interventions
 
@@ -136,7 +136,7 @@ def make_vx_scenarios(coverage_arr, efficacy_arr, product='nonavalent', start_ye
     for eff_val in efficacy_arr:
 
         cov_val = eff_val*0.9/0.95
-        label = f'Adolescents: {cov_val} coverage, Infants: {eff_val} efficacy'
+        label = f'Infants: {eff_val} efficacy'
 
         routine_vx = hpv.routine_vx(
             prob=cov_val,
