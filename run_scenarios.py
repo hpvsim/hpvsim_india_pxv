@@ -28,8 +28,13 @@ import run_sim as rs
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
 coverage_arr = np.arange(.1, 1, .1)  # np.array([0.1, 0.5, 0.9])
-# efficacy_arr = np.arange(.5, 1, .1)
-efficacy_arr = 0.95*coverage_arr/.9
+efficacy_dict = dict(
+    all=np.arange(.5, 1, .1),
+    equiv=0.95*coverage_arr/.9
+)
+efficacy_scen = 'all'
+efficacy_arr = efficacy_dict[efficacy_scen]
+
 
 # %% Create interventions
 
@@ -238,6 +243,6 @@ if __name__ == '__main__':
 
                 msim_dict[scen_label] = mres
 
-            sc.saveobj(f'results/vx_scens.obj', msim_dict)
+            sc.saveobj(f'results/vx_scens_{efficacy_scen}.obj', msim_dict)
 
     print('Done.')
