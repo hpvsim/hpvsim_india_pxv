@@ -142,7 +142,7 @@ def run_sim(
     sim.shrink()
 
     if do_save:
-        sim.save(f'results/{dflocation}.sim')
+        sim.save(f'results/india.sim')
 
     return sim
 
