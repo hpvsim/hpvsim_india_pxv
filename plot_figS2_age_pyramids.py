@@ -14,8 +14,8 @@ def plot_pops(years, percentages=True):
 
     n_years = len(years)
     n_rows, n_cols = sc.get_rows_cols(n_years)
-    ut.set_font(size=15)
-    fig, axes = pl.subplots(n_rows, n_cols, figsize=(10, 7))
+    ut.set_font(size=14)
+    fig, axes = pl.subplots(n_rows, n_cols, figsize=(10, 10))
     if n_years > 1:
         axes = axes.flatten()
     else:

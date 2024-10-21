@@ -12,7 +12,7 @@ import utils as ut
 def plot_required_efficacy():
 
     ut.set_font(16)
-    fig, ax = pl.subplots(1, 1, figsize=(8, 5))
+    fig, ax = pl.subplots(1, 1, figsize=(9, 4))
 
     vea = 95  # Vaccine efficacy for adults
     vca_arr = np.linspace(10, 100, 10)  # Vaccine coverage for adults

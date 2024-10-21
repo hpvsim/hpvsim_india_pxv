@@ -15,9 +15,12 @@ def plot_single(ax, mres, to_plot, si, ei, color, label=None, smooth=True):
     ts = 0.5  # detection rate / sensitivity
 
     if to_plot == 'precin_incidence':
-        best = mres.n_precin_by_age[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age[3:10, si:ei].sum(axis=0) * ts
-        low = mres.n_precin_by_age.low[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age.low[3:10, si:ei].sum(axis=0) * ts
-        high = mres.n_precin_by_age.high[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age.high[3:10, si:ei].sum(axis=0) * ts
+        best = mres.n_precin_by_age[3:, si:ei].sum(axis=0) / mres.n_females_alive_by_age[3:, si:ei].sum(axis=0) * ts
+        low = mres.n_precin_by_age.low[3:, si:ei].sum(axis=0) / mres.n_females_alive_by_age.low[3:, si:ei].sum(axis=0) * ts
+        high = mres.n_precin_by_age.high[3:, si:ei].sum(axis=0) / mres.n_females_alive_by_age.high[3:, si:ei].sum(axis=0) * ts
+        # best = mres.n_precin_by_age[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age[3:10, si:ei].sum(axis=0) * ts
+        # low = mres.n_precin_by_age.low[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age.low[3:10, si:ei].sum(axis=0) * ts
+        # high = mres.n_precin_by_age.high[3:10, si:ei].sum(axis=0) / mres.n_females_alive_by_age.high[3:10, si:ei].sum(axis=0) * ts
     else:
         best = mres[to_plot][si:ei]
         low = mres[to_plot].low[si:ei]
@@ -42,7 +45,7 @@ def plot_fig3(msim_dict):
     colors = sc.vectocolor(len(plot_efficacy_arr), reverse=True)
     # covcolors = sc.vectocolor(len(plot_coverage_arr), reverse=True)
     plot_dict = sc.objdict(
-        precin_incidence='Detectable HPV prevalence, females 15-49',
+        precin_incidence='Detectable HPV prevalence, females 15+',
         asr_cancer_incidence='ASR cancer incidence'
     )
 
