@@ -27,7 +27,8 @@ import run_sim as rs
 # Settings - used here and imported elsewhere
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
-target_age_list = [[9, 14], [9, 18], [13, 18]]
+routine_target_age_list = [[9, 10], [13, 14]]
+mac_age_list = [[10, 14], [14, 18], [10, 18]]
 efficacy = 0.98
 coverage_array = np.linspace(0.1, 0.9, 9)
 
@@ -60,16 +61,16 @@ def make_vx_scenarios(target_age_list, efficacy=efficacy, product='bivalent', st
                 label='Routine vx'
             )
 
-            catchup_vx = hpv.campaign_vx(
-                prob=cov_val,
-                years=start_year,
-                product=prod,
-                age_range=catchup_age,
-                eligibility=eligibility,
-                label='Catchup vx'
-            )
+            # catchup_vx = hpv.campaign_vx(
+            #     prob=cov_val,
+            #     years=start_year,
+            #     product=prod,
+            #     age_range=catchup_age,
+            #     eligibility=eligibility,
+            #     label='Catchup vx'
+            # )
 
-            vx_scenarios[label] = [routine_vx, catchup_vx]
+            vx_scenarios[label] = [routine_vx]  #, catchup_vx]
 
     return vx_scenarios
 
