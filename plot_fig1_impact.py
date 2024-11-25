@@ -29,7 +29,7 @@ def preprocess_data(msim_dict):
                 base_vals = msim_dict[base_label][metric].values[si:]
                 scen_vals = msim_dict[scen_label][metric].values[si:]
                 n_averted = sum(base_vals - scen_vals)
-                records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'None'}
+                records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'No MAC'}
 
     for target_age in target_age_list:
         for mac in mac_list:
@@ -44,7 +44,7 @@ def preprocess_data(msim_dict):
                     base_vals = msim_dict[base_label][metric].values[si:]
                     scen_vals = msim_dict[scen_label][metric].values[si:]
                     n_averted = sum(base_vals - scen_vals)
-                    records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': str(mac)}
+                    records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'MAC + '+str(mac) +' years'}
 
     df = pd.DataFrame.from_dict(records)
 
@@ -54,7 +54,7 @@ def preprocess_data(msim_dict):
 def plot_fig2(df):
 
     sns.set_style("whitegrid")
-    ut.set_font(30)
+    ut.set_font(18)
     g = sns.catplot(
         data=df,
         kind="bar",
@@ -63,11 +63,11 @@ def plot_fig2(df):
         row="metric",
         col="mac",
         hue="age",
-        sharey=False,
-        height=5, aspect=3,
-    )
+        sharey=True,
+        # height=12, aspect=1,
+        palette="viridis")
     g.set_axis_labels("Coverage (%)", "")
-    g.set_titles("{row_name} averted")
+    g.set_titles("{row_name} averted\nrelative to no vaccination\n{col_name}")
 
     for ax in g.axes.flat:
         sc.SIticks(ax)
