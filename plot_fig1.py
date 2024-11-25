@@ -11,8 +11,9 @@ import utils as ut
 
 def plot_required_efficacy():
 
-    ut.set_font(16)
-    fig, ax = pl.subplots(1, 1, figsize=(9, 4))
+    ut.set_font(24)
+    fig, ax = pl.subplots(1, 1, figsize=(15, 10))
+    # fig, ax = pl.subplots(1, 1, figsize=(9, 4))
 
     vea = 95  # Vaccine efficacy for adults
     vca_arr = np.linspace(10, 100, 10)  # Vaccine coverage for adults
@@ -22,7 +23,7 @@ def plot_required_efficacy():
     for li, vca in enumerate(vca_arr):
         vei = vea * vca/vci
         pl.plot(vci, vei, c=colors[li], alpha=1., lw=3, label=f'VCA={vca}')
-        pl.text(101, 95*vca/100-1, f'VCA={int(vca)}', color=colors[li], fontsize=10)
+        pl.text(101, 95*vca/100-1, f'VCA={int(vca)}', color=colors[li], fontsize=20)
 
     ax.set_ylim(bottom=0, top=100)
     ax.set_xlim([0, 110])

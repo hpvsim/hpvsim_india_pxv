@@ -39,7 +39,7 @@ def plot_single(ax, mres, to_plot, si, ei, color, label=None, smooth=True):
 
 def plot_fig3(msim_dict):
 
-    ut.set_font(16)
+    ut.set_font(20)  # 16 for paper
     plot_coverage_arr = coverage_arr[::2]  #[[0,4,8]]  #[[0,4,8]]  # which ones to plot
     plot_efficacy_arr = efficacy_arr[::2]  #[[0,4,8]]  #[[0,4,8]]  # which ones to plot
     colors = sc.vectocolor(len(plot_efficacy_arr), reverse=True)
@@ -49,7 +49,8 @@ def plot_fig3(msim_dict):
         asr_cancer_incidence='ASR cancer incidence'
     )
 
-    fig, axes = pl.subplots(len(plot_dict), 2, figsize=(11, 10))
+    fig, axes = pl.subplots(len(plot_dict), 2, figsize=(17, 10))
+    # fig, axes = pl.subplots(len(plot_dict), 2, figsize=(11, 10))
 
     # What to plot
     start_year = 2016

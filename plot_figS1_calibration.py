@@ -19,8 +19,8 @@ import run_sim as rs
 
 def plot_calib(calib, res_to_plot=100):
 
-    ut.set_font(size=15)
-    fig = pl.figure(layout="tight", figsize=(10, 7))
+    ut.set_font(size=24)
+    fig = pl.figure(layout="tight", figsize=(12, 11))
     prev_col = '#5f5cd2'
     canc_col = '#c1981d'
     ms = 80
@@ -91,7 +91,8 @@ def plot_calib(calib, res_to_plot=100):
     ax.set_xticks(x, age_labels)
     ax.set_ylabel('')
     ax.set_xlabel('Age')
-    ax.set_title('Detectable HPV prevalence,\n normal cervical cytology, 2020')
+    ax.set_title('Detectable HPV\n prevalence, 2020')
+    # ax.set_title('Detectable HPV prevalence,\n normal cervical cytology, 2020')
 
     ###############
     # Panel B: Cancers by age
@@ -118,13 +119,14 @@ def plot_calib(calib, res_to_plot=100):
 
     ax.set_ylim([0, 20_000])
     ax.set_xticks(x, age_labels)
+    sc.SIticks(ax)
     ax.set_ylabel('')
     ax.set_xlabel('Age')
     ax.set_title('Cancers by age, 2020')
 
     # CINS and cancer by genotype
     rkeys = ['cin_genotype_dist', 'cancerous_genotype_dist']
-    rlabels = ['HSILs by genotype', 'Cancers by genotype']
+    rlabels = ['HSILs', 'Cancers']  #['HSILs by genotype', 'Cancers by genotype']
     for ai, rkey in enumerate(rkeys):
         ax = fig.add_subplot(gs01[ai+2])
 
