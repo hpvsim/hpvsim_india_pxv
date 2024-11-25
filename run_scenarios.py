@@ -63,25 +63,26 @@ def make_vx_scenarios(target_age_list=None, efficacy=0.98, mac_list=None, covera
     # Scenarios with catchup
     for age_range in target_age_list:
         routine_age = (age_range[0], age_range[1])
-        routine_vx = hpv.routine_vx(
+        for cov_val in coverage_array:
+            routine_vx = hpv.routine_vx(
+                        prob=cov_val,
+                        start_year=start_year,
+                        product=prod,
+                        age_range=routine_age,
+                        eligibility=eligibility,
+                        label='Routine vx'
+                    )
+            for mac_age in mac_list:
+                catchup_age = (age_range[1], age_range[1]+mac_age)
+                label = f'Girls {age_range[0]}-{age_range[1]} + MAC {catchup_age[0]}-{catchup_age[1]}: {np.round(cov_val, decimals=2)} coverage'
+                catchup_vx = hpv.campaign_vx(
                     prob=cov_val,
-                    start_year=start_year,
+                    years=start_year,
                     product=prod,
-                    age_range=routine_age,
+                    age_range=catchup_age,
                     eligibility=eligibility,
-                    label='Routine vx'
+                    label='Catchup vx'
                 )
-        for mac_age in mac_list:
-            catchup_age = (age_range[1], age_range[1]+mac_age)
-            label = f'Girls {age_range[0]}-{age_range[1]} + MAC {catchup_age[0]}-{catchup_age[1]}: {np.round(cov_val, decimals=2)} coverage'
-            catchup_vx = hpv.campaign_vx(
-                prob=cov_val,
-                years=start_year,
-                product=prod,
-                age_range=catchup_age,
-                eligibility=eligibility,
-                label='Catchup vx'
-            )
 
             vx_scenarios[label] = [routine_vx, catchup_vx]
 
