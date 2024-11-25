@@ -137,7 +137,7 @@ if __name__ == '__main__':
             metrics = ['year', 'asr_cancer_incidence', 'n_precin_by_age', 'n_females_alive_by_age', 'cancers', 'cancer_deaths']
 
             # Process results
-            vx_scenarios = make_vx_scenarios(target_age_list=target_age_list)
+            vx_scenarios = make_vx_scenarios(target_age_list=target_age_list, mac_list=mac_list, coverage_array=coverage_array)
             scen_labels = list(vx_scenarios.keys())
             mlist = msim.split(chunks=len(scen_labels))
 
