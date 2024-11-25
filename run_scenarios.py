@@ -41,8 +41,8 @@ def make_vx_scenarios(target_age_list, efficacy=efficacy, product='bivalent', st
 
     vx_scenarios = dict()
 
-    # # Baseline
-    # vx_scenarios['Baseline'] = []
+    # Baseline
+    vx_scenarios['Baseline'] = []
 
     # Construct the adolescent only scenarios
     for age_range in target_age_list:
