@@ -65,9 +65,9 @@ def plot_fig2(df):
         hue="age",
         sharey=True,
         # height=12, aspect=1,
-        palette="viridis")
+        )
     g.set_axis_labels("Coverage (%)", "")
-    g.set_titles("{row_name} averted\nrelative to no vaccination\n{col_name}")
+    g.set_titles("{row_name} averted 2025-2100\nrelative to no vaccination\n{col_name}")
 
     for ax in g.axes.flat:
         sc.SIticks(ax)
