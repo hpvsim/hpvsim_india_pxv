@@ -16,23 +16,20 @@ def preprocess_data(msim_dict):
     start_year = 2025
     metrics = ['cancers', 'cancer_deaths']
     records = sc.autolist()
+    base_label = 'Baseline'
+    si = sc.findinds(msim_dict[base_label].year, start_year)[0]
 
-    for cn, cov_val in enumerate(coverage_array):
-        base_label = f'Adolescent: {np.round(cov_val, decimals=1)} coverage'
-        si = sc.findinds(msim_dict[base_label].year, start_year)[0]
+    for target_age in target_age_list:
+        age_label = f'Girls {target_age[0]}-{target_age[1]}'
 
-        for en, eff_val in enumerate(efficacy_arr):
-            base_label = f'Adolescent: {np.round(cov_val, decimals=1)} coverage'
-            scen_label = f'Infants: {np.round(eff_val, decimals=3)} efficacy'
-            # scen_dalys = msim_dict[scen_label].dalys[di:]
-            # dalys_averted = sum(base_dalys - scen_dalys)
-            # records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric':'DALYs', 'val': dalys_averted}
+        for cn, cov_val in enumerate(coverage_array):
+            scen_label = age_label + f': {np.round(cov_val, decimals=1)} coverage'
 
             for pn, metric in enumerate(metrics):
                 base_vals = msim_dict[base_label][metric].values[si:]
                 scen_vals = msim_dict[scen_label][metric].values[si:]
                 n_averted = sum(base_vals - scen_vals)
-                records += {'coverage': int(round(cov_val, 1)*100), 'efficacy': int(round(eff_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
+                records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
 
     df = pd.DataFrame.from_dict(records)
 
@@ -44,25 +41,24 @@ def plot_fig2(df):
     sns.set_style("whitegrid")
     ut.set_font(30)
     g = sns.catplot(
-        data=df.loc[df.metric != 'cost'],
+        data=df,
         kind="bar",
-        x="efficacy",
+        x="coverage",
         y="val",
         row="metric",
-        hue="coverage",
-        palette="rocket_r",
+        hue="age",
         sharey=False,
         height=5, aspect=3,
     )
-    g.set_axis_labels("Vaccine efficacy for infants (%)", "")
+    g.set_axis_labels("Coverage (%)", "")
     g.set_titles("{row_name} averted")
 
     for ax in g.axes.flat:
         sc.SIticks(ax)
-    g.legend.set_title("Adolescent\ncoverage (%)")
+    g.legend.set_title("Age range")
 
     # fig.tight_layout()
-    fig_name = 'figures/fig2_vx_impact.png'
+    fig_name = 'figures/fig1_vx_impact.png'
     sc.savefig(fig_name, dpi=100)
     return
 

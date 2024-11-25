@@ -27,7 +27,7 @@ import run_sim as rs
 # Settings - used here and imported elsewhere
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
-target_age_list = [[9, 14], [13, 18]]
+target_age_list = [[9, 14], [9, 18], [13, 18]]
 efficacy = 0.98
 coverage_array = np.linspace(0.1, 0.9, 9)
 
