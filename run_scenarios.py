@@ -84,7 +84,7 @@ def make_vx_scenarios(target_age_list=None, efficacy=0.98, mac_list=None, covera
                     label='Catchup vx'
                 )
 
-            vx_scenarios[label] = [routine_vx, catchup_vx]
+                vx_scenarios[label] = [routine_vx, catchup_vx]
 
     return vx_scenarios
 
