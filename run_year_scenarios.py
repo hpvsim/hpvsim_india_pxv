@@ -52,11 +52,7 @@ def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_
             constant_coverage = np.ones(len(constant_years)) * final_coverage
             years = np.concatenate([scaleup_years, constant_years])
             coverage = np.concatenate([scaleup_coverage, constant_coverage])
-
             label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years'
-            print(label)
-            print(len(years))
-            print(len(coverage))
 
             routine_vx = hpv.routine_vx(
                 prob=coverage,
@@ -66,14 +62,14 @@ def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_
                 eligibility=eligibility,
                 label='Routine vx'
             )
-            catchup_vx = hpv.campaign_vx(
-                            prob=coverage,
-                            years=years,
-                            product=prod,
-                            age_range=catchup_age,
-                            eligibility=eligibility,
-                            label='Catchup vx'
-            )
+            # catchup_vx = hpv.campaign_vx(
+            #                 prob=coverage,
+            #                 years=years,
+            #                 product=prod,
+            #                 age_range=catchup_age,
+            #                 eligibility=eligibility,
+            #                 label='Catchup vx'
+            # )
 
             vx_scenarios[label] = [routine_vx, catchup_vx]
 
