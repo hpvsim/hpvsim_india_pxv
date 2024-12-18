@@ -46,14 +46,17 @@ def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_
     for start_year in start_year_list:
         for n_years_to_scaleup in n_years_to_scaleup_list:
 
-            scaleup_years = np.arange(start_year-1, start_year+n_years_to_scaleup)
-            constant_years = np.arange(start_year+n_years_to_scaleup, end+1)
+            scaleup_years = np.arange(start_year-1, start_year+n_years_to_scaleup+1)
+            constant_years = np.arange(start_year+n_years_to_scaleup+1, end+1)
             scaleup_coverage = np.linspace(0, final_coverage, n_years_to_scaleup+2)
             constant_coverage = np.ones(len(constant_years)) * final_coverage
             years = np.concatenate([scaleup_years, constant_years])
             coverage = np.concatenate([scaleup_coverage, constant_coverage])
 
             label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years'
+            print(label)
+            print(len(years))
+            print(len(coverage))
 
             routine_vx = hpv.routine_vx(
                 prob=coverage,
