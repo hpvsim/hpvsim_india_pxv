@@ -62,16 +62,16 @@ def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_
                 eligibility=eligibility,
                 label='Routine vx'
             )
-            # catchup_vx = hpv.campaign_vx(
-            #                 prob=coverage,
-            #                 years=years,
-            #                 product=prod,
-            #                 age_range=catchup_age,
-            #                 eligibility=eligibility,
-            #                 label='Catchup vx'
-            # )
+            catchup_vx = hpv.campaign_vx(
+                            prob=coverage,
+                            years=years,
+                            product=prod,
+                            age_range=catchup_age,
+                            eligibility=eligibility,
+                            label='Catchup vx'
+            )
 
-            vx_scenarios[label] = [routine_vx, catchup_vx]
+            vx_scenarios[label] = [routine_vx]  #, catchup_vx]
 
     return vx_scenarios
 
