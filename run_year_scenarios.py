@@ -26,7 +26,7 @@ import run_sim as rs
 debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
 start_year_list = np.arange(2025, 2036)
-n_years_to_scaleup_list = [0, 1, 2, 3, 4, 5]
+n_years_to_scaleup_list = [0, 5, 10]
 
 # %% Create interventions
 def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_coverage=0.9, efficacy=0.98, product='bivalent', end=2100):

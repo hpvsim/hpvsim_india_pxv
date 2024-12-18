@@ -45,6 +45,7 @@ def plot_year_impact(df):
         y="val",
         row="metric",
         hue="Years to scale up",
+        palette="viridis",
         # col="Years to scale up",
         sharey=True,
         # height=12, aspect=1,
