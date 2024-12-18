@@ -29,7 +29,7 @@ def preprocess_data(msim_dict):
                 base_vals = msim_dict[base_label][metric].values[si:]
                 scen_vals = msim_dict[scen_label][metric].values[si:]
                 n_averted = sum(base_vals - scen_vals)
-                records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'No MAC'}
+                records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'Age window: 1 year'}
 
     for target_age in target_age_list:
         for mac in mac_list:
@@ -44,7 +44,7 @@ def preprocess_data(msim_dict):
                     base_vals = msim_dict[base_label][metric].values[si:]
                     scen_vals = msim_dict[scen_label][metric].values[si:]
                     n_averted = sum(base_vals - scen_vals)
-                    records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'MAC + '+str(mac) +' years'}
+                    records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'Age window: '+str(mac) +' years'}
 
     df = pd.DataFrame.from_dict(records)
 
