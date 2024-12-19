@@ -4,7 +4,7 @@ Plot impact of shifting year and rate of introduction of vaccination
 
 import pandas as pd
 import sciris as sc
-from run_year_scenarios import start_year_list, n_years_to_scaleup_list
+from run_year_scenarios import start_year_list, n_years_to_scaleup_list, product_list
 import utils as ut
 import seaborn as sns
 import numpy as np
@@ -22,13 +22,14 @@ def preprocess_data(msim_dict):
 
     for start_year in start_year_list:
         for n_years_to_scaleup in n_years_to_scaleup_list:
-            scen_label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years'
+            for product in product_list:
+                scen_label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years, {product}'
 
-            for pn, metric in enumerate(metrics):
-                base_vals = msim_dict[base_label][metric].values[si:]
-                scen_vals = msim_dict[scen_label][metric].values[si:]
-                n_averted = sum(base_vals - scen_vals)
-                records += {'Introduction year': start_year, 'Years to scale up': n_years_to_scaleup, 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
+                for pn, metric in enumerate(metrics):
+                    base_vals = msim_dict[base_label][metric].values[si:]
+                    scen_vals = msim_dict[scen_label][metric].values[si:]
+                    n_averted = sum(base_vals - scen_vals)
+                    records += {'Introduction year': start_year, 'Years to scale up': n_years_to_scaleup, 'Product': product, 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted}
 
     df = pd.DataFrame.from_dict(records)
 
@@ -61,24 +62,26 @@ def plot_single(ax, mres, to_plot, si, ei, color, label=None, smooth=True, al=No
 
 def plot_year_impact(df):
 
-    # sns.set_style("whitegrid")
-    ut.set_font(36)
+    sns.set_style("whitegrid")
+    ut.set_font(100)
     g = sns.catplot(
         data=df,
         kind="bar",
         x="Introduction year",
         y="val",
         row="metric",
+        col="Product",
         hue="Years to scale up",
         palette="viridis",
         sharey=True,
-        height=10, aspect=3,
+        height=20, aspect=1,
         )
-    g.set_axis_labels("Introduction year", "")
-    g.set_titles("{row_name} averted 2025-2100\nrelative to no vaccination")
+    g.set_axis_labels("Introduction year", "# averted 2025-2100")
+    g.set_titles("Cumulative {row_name}\n{col_name} vx")
 
     for ax in g.axes.flat:
         sc.SIticks(ax)
+        ax.tick_params(axis='x', which='both', labelsize=100, rotation=90)
     g.legend.set_title("Years to scale up")
 
     # fig.tight_layout()
@@ -94,12 +97,12 @@ def plot_year_ts(msim_dict):
     colors = sc.vectocolor(len(plot_start_year_list), reverse=True)
     # covcolors = sc.vectocolor(len(plot_coverage_arr), reverse=True)
     plot_dict = sc.objdict(
-        precin_incidence='Detectable HPV prevalence, females 15+',
+        precin_incidence='Detectable HPV prevalence (F15+)',
         asr_cancer_incidence='ASR cancer incidence'
     )
 
-    fig, axes = pl.subplots(len(plot_dict), figsize=(17, 10))
-    axes = axes.ravel()
+    fig, axes = pl.subplots(len(plot_dict), len(product_list), figsize=(17, 10))
+    # axes = axes.ravel()
 
     # What to plot
     start_year = 2016
@@ -107,27 +110,30 @@ def plot_year_ts(msim_dict):
     mbase = msim_dict['Baseline']
     si = sc.findinds(mbase.year, start_year)[0]
     ei = sc.findinds(mbase.year, end_year)[0]
+    cn = 0
 
-    for pn, to_plot, plot_label in plot_dict.enumitems():
+    for rn, to_plot, plot_label in plot_dict.enumitems():
 
-        ax = axes[pn]
+        for cn, product in enumerate(product_list):
 
-        # Plot baseline
-        baseline_label = 'Baseline'
-        mres = msim_dict[baseline_label]
-        ax = plot_single(ax, mres, to_plot, si, ei, 'k', label='No vaccination')
+            ax = axes[rn, cn]
 
-        # Plot with vaccination
-        for syn, start_year in enumerate(plot_start_year_list):
-            scen_label = f'Start year: {start_year}, scaleup: 0 years'
-            mres = msim_dict[scen_label]
-            ax = plot_single(ax, mres, to_plot, si, ei, colors[syn], label=f'90% PxV coverage from {start_year}', al=scen_label)
+            # Plot baseline
+            baseline_label = 'Baseline'
+            mres = msim_dict[baseline_label]
+            ax = plot_single(ax, mres, to_plot, si, ei, 'k', label='No vaccination')
 
-        ax.set_ylim(bottom=0)
-        # ax.set_ylabel(plot_label)
-        ax.set_title(plot_label)
-        if pn == 0: ax.legend(frameon=False)
-        if to_plot == 'asr_cancer_incidence': ax.axhline(y=4, color='k', ls='--')
+            # Plot with vaccination
+            for syn, start_year in enumerate(plot_start_year_list):
+                scen_label = f'Start year: {start_year}, scaleup: 0 years, {product}'
+                mres = msim_dict[scen_label]
+                ax = plot_single(ax, mres, to_plot, si, ei, colors[syn], label=f'90% PxV coverage from {start_year}', al=scen_label)
+
+            ax.set_ylim(bottom=0)
+            # ax.set_ylabel(plot_label)
+            ax.set_title(plot_label+f'\n{product} vx')
+            if (cn == 0) & (rn == 0): ax.legend(frameon=False)
+            if to_plot == 'asr_cancer_incidence': ax.axhline(y=4, color='k', ls='--')
 
     fig.tight_layout()
     fig_name = 'figures/fig3_vx_year_ts.png'
