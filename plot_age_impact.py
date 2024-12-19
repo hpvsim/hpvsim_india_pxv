@@ -51,7 +51,7 @@ def preprocess_data(msim_dict):
     return df
 
 
-def plot_fig2(df):
+def plot_age_impact(df):
 
     sns.set_style("whitegrid")
     ut.set_font(18)
@@ -86,4 +86,4 @@ if __name__ == '__main__':
     msim_dict = sc.loadobj('results/vx_scens.obj')
     df = preprocess_data(msim_dict)
 
-    plot_fig2(df)
+    plot_age_impact(df)

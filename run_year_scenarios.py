@@ -27,21 +27,21 @@ debug = 0
 n_seeds = [20, 1][debug]  # How many seeds to run per cluster
 start_year_list = np.arange(2025, 2036)
 n_years_to_scaleup_list = [0, 5, 10]
+product_list = ['bivalent', 'quadrivalent', 'nonavalent']
+
 
 # %% Create interventions
-def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_coverage=0.9, efficacy=0.98, product='bivalent', end=2100):
-
-    prod = hpv.default_vx(prod_name=product)
-    prod.imm_init = dict(dist='uniform', par1=efficacy-0.01, par2=efficacy+0.01)
-    eligibility = lambda sim: (sim.people.doses == 0)
+def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, product_list=None, final_coverage=0.9, efficacy=0.98, end=2100):
 
     vx_scenarios = dict()
 
     # Baseline
     vx_scenarios['Baseline'] = []
 
+    # Vaccine eligibility
     routine_age = [13, 14]
     catchup_age = [14, 18]
+    eligibility = lambda sim: (sim.people.doses == 0)
 
     for start_year in start_year_list:
         for n_years_to_scaleup in n_years_to_scaleup_list:
@@ -52,26 +52,30 @@ def make_vx_scenarios(start_year_list=None, n_years_to_scaleup_list=None, final_
             constant_coverage = np.ones(len(constant_years)) * final_coverage
             years = np.concatenate([scaleup_years, constant_years])
             coverage = np.concatenate([scaleup_coverage, constant_coverage])
-            label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years'
 
-            routine_vx = hpv.routine_vx(
-                prob=coverage,
-                years=years,
-                product=prod,
-                age_range=routine_age,
-                eligibility=eligibility,
-                label='Routine vx'
-            )
-            catchup_vx = hpv.campaign_vx(
-                            prob=coverage,
-                            years=years,
-                            product=prod,
-                            age_range=catchup_age,
-                            eligibility=eligibility,
-                            label='Catchup vx'
-            )
+            for product in product_list:
+                prod = hpv.default_vx(prod_name=product)
+                prod.imm_init = dict(dist='uniform', par1=efficacy-0.01, par2=efficacy+0.01)
+                label = f'Start year: {start_year}, scaleup: {n_years_to_scaleup} years, {product}'
 
-            vx_scenarios[label] = [routine_vx]  #, catchup_vx]
+                routine_vx = hpv.routine_vx(
+                    prob=coverage,
+                    years=years,
+                    product=prod,
+                    age_range=routine_age,
+                    eligibility=eligibility,
+                    label='Routine vx'
+                )
+                catchup_vx = hpv.campaign_vx(
+                                prob=coverage,
+                                years=years,
+                                product=prod,
+                                age_range=catchup_age,
+                                eligibility=eligibility,
+                                label='Catchup vx'
+                )
+
+                vx_scenarios[label] = [routine_vx]  #, catchup_vx]
 
     return vx_scenarios
 
@@ -114,7 +118,7 @@ if __name__ == '__main__':
     # Run scenarios (usually on VMs, runs n_seeds in parallel over M scenarios)
     if do_run:
         calib_pars = sc.loadobj('results/india_pars.obj')
-        vx_scenarios = make_vx_scenarios(start_year_list=start_year_list, n_years_to_scaleup_list=n_years_to_scaleup_list, end=2100)
+        vx_scenarios = make_vx_scenarios(start_year_list=start_year_list, n_years_to_scaleup_list=n_years_to_scaleup_list, product_list=product_list, end=2100)
         msim = run_sims(vx_scenarios=vx_scenarios)
         if do_save: msim.save('results/vs.msim')
 
@@ -123,7 +127,7 @@ if __name__ == '__main__':
             metrics = ['year', 'asr_cancer_incidence', 'n_precin_by_age', 'n_females_alive_by_age', 'cancers', 'cancer_deaths']
 
             # Process results
-            vx_scenarios = make_vx_scenarios(start_year_list=start_year_list, n_years_to_scaleup_list=n_years_to_scaleup_list, end=2100)
+            vx_scenarios = make_vx_scenarios(start_year_list=start_year_list, n_years_to_scaleup_list=n_years_to_scaleup_list, product_list=product_list, end=2100)
             scen_labels = list(vx_scenarios.keys())
             mlist = msim.split(chunks=len(scen_labels))
 
