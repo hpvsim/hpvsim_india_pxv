@@ -29,7 +29,7 @@ def preprocess_data(msim_dict):
                 base_vals = msim_dict[base_label][metric].values[si:]
                 scen_vals = msim_dict[scen_label][metric].values[si:]
                 n_averted = sum(base_vals - scen_vals)
-                records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'No MAC'}
+                records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'Age window: 1 year'}
 
     for target_age in target_age_list:
         for mac in mac_list:
@@ -44,14 +44,14 @@ def preprocess_data(msim_dict):
                     base_vals = msim_dict[base_label][metric].values[si:]
                     scen_vals = msim_dict[scen_label][metric].values[si:]
                     n_averted = sum(base_vals - scen_vals)
-                    records += {'age': f'{target_age[0]}-{target_age[1]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'MAC + '+str(mac) +' years'}
+                    records += {'age': f'{target_age[0]}', 'coverage': int(round(cov_val, 1)*100), 'metric': f'{metric.replace("_"," ").capitalize()}', 'val': n_averted, 'mac': 'Age window: '+str(mac) +' years'}
 
     df = pd.DataFrame.from_dict(records)
 
     return df
 
 
-def plot_fig2(df):
+def plot_age_impact(df):
 
     sns.set_style("whitegrid")
     ut.set_font(18)
@@ -71,7 +71,7 @@ def plot_fig2(df):
 
     for ax in g.axes.flat:
         sc.SIticks(ax)
-    g.legend.set_title("Age range")
+    g.legend.set_title("Lower age")
 
     # fig.tight_layout()
     fig_name = 'figures/fig1_vx_impact.png'
@@ -86,4 +86,4 @@ if __name__ == '__main__':
     msim_dict = sc.loadobj('results/vx_scens.obj')
     df = preprocess_data(msim_dict)
 
-    plot_fig2(df)
+    plot_age_impact(df)
