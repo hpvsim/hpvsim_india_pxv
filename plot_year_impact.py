@@ -149,8 +149,8 @@ if __name__ == '__main__':
     msim_dict = sc.loadobj('results/vx_year_scens.obj')
 
     # Cumulative impact
-    # df = preprocess_data(msim_dict)
-    # plot_year_impact(df)
+    df = preprocess_data(msim_dict)
+    plot_year_impact(df)
 
     # Time series
     plot_year_ts(msim_dict)
